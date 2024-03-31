@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"], input[type="password"], input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    #result {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    #logButton {
+        display: none;
+        background-color: #008CBA;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+    }
+    #logModal {
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Love Calculator</h2>
+    <form id="loveForm">
+        <input type="text" id="name1" placeholder="Your Name" required>
+        <input type="text" id="name2" placeholder="Partner's Name" required>
+        <input type="submit" value="Calculate">
+    </form>
+    <div id="result"></div>
+    <button id="logButton">View Log</button>
+</div>
+<div id="logModal">
+    <div class="container">
+        <h2>Password Required</h2>
+        <input type="password" id="logPassword" placeholder="Enter Password" required>
+        <button id="logSubmit">Submit</button>
+        <div id="logResult"></div>
+    </div>
+</div>
+<script>
+document.getElementById('loveForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var name1 = document.getElementById('name1').value;
+    var name2 = document.getElementById('name2').value;
+    var lovePercentage = calculateLovePercentage(name1, name2);
+    document.getElementById('result').innerText = 'Love Percentage: ' + lovePercentage + '%';
+    document.getElementById('logButton').style.display = 'inline-block'; // Show log button
+    logLoveCalculation(name1, name2);
+});
+
+document.getElementById('logButton').addEventListener('click', function() {
+    document.getElementById('logModal').style.display = 'block';
+});
+
+document.getElementById('logSubmit').addEventListener('click', function() {
+    var password = document.getElementById('logPassword').value;
+    if (password === '8010') {
+        var names = getLoggedNames();
+        document.getElementById('logResult').innerText = 'Log: ';
+        names.forEach(function(item, index) {
+            document.getElementById('logResult').innerText += 'Name 1: ' + item.name1 + ', Name 2: ' + item.name2 + '; ';
+        });
+    } else {
+        document.getElementById('logResult').innerText = 'Incorrect password. Access denied.';
+    }
+});
+
+function calculateLovePercentage(name1, name2) {
+    // Your love percentage calculation logic here
+    // For simplicity, let's just return a random number
+    return Math.floor(Math.random() * 51) + 50;
+}
+
+function logLoveCalculation(name1, name2) {
+    // Logging the calculation
+    var log = JSON.parse(localStorage.getItem('log')) || [];
+    log.push({name1: name1, name2: name2});
+    localStorage.setItem('log', JSON.stringify(log));
+}
+
+function getLoggedNames() {
+    // Retrieve logged names from localStorage
+    return JSON.parse(localStorage.getItem('log')) || [];
+}
+</script>
+</body>
+</html>
